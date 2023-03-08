@@ -5,23 +5,23 @@
  */
 
 var minimumTime = function (time, totalTrips) {
-  const calculateTotalTripsInGivenTime = (times, givenTime) => {
+  const possibleInGivenTime = (times, givenTime) => {
     let sum = 0
     for (let i = 0; i < times.length; i++) {
       sum += Math.floor(givenTime / times[i])
     }
-    return sum
+    return sum >= totalTrips
   }
 
   let left = 1
   let right = time[0] * totalTrips
 
-  while (left <= right) {
-    let mid = Math.floor(left + (right - left) / 2)
-    if (calculateTotalTripsInGivenTime(time, mid) < totalTrips) {
-      left = mid + 1
+  while (left < right) {
+    let midTime = Math.floor(left + (right - left) / 2)
+    if (possibleInGivenTime(time, midTime)) {
+      right = midTime
     } else {
-      right = mid - 1
+      left = midTime + 1
     }
   }
   return left
